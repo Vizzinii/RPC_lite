@@ -10,13 +10,13 @@ public class EasyConsumerExample {
 
     public static void main(String[] args) {
         // TODO 需要获取 UserService 的实现类对象
-        UserService userService = null;
+        UserService userService = new UserServiceProxy();
         User user = new User();
-        user.setName("yupi");
+        user.setName("vizzini");
         // 调用
         User newUser = userService.getUser(user);
         if (newUser != null) {
-            System.out.println(newUser.getName());
+            System.out.println(newUser.getName() + " from consumer");
         } else {
             System.out.println("user == null");
         }
