@@ -24,9 +24,15 @@
             <version>4.5.9</version>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>com.rpc</groupId>-->
+<!--            <artifactId>vizzini_rpc_lite</artifactId>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>com.rpc</groupId>
-            <artifactId>vizzini_rpc_lite</artifactId>
+            <artifactId>vizzini_rpc_core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 

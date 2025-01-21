@@ -13,6 +13,7 @@
         <module>rpc_consumer</module>
         <module>rpc_provider</module>
         <module>vizzini_rpc_lite</module>
+        <module>vizzini_rpc_core</module>
     </modules>
 
     <properties>

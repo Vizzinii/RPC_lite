@@ -2,7 +2,7 @@ package com.vizzini.example.consumer;
 
 import com.vizzini.example.common.model.User;
 import com.vizzini.example.common.service.UserService;
-import com.vizzini.rpc_lite.proxy.ServiceProxyFactory;
+import com.vizzini.rpc_core.proxy.ServiceProxyFactory;
 
 /**
  * 简易服务消费者示例

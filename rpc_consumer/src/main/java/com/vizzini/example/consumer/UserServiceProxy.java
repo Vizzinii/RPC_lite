@@ -4,10 +4,10 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import com.vizzini.example.common.model.User;
 import com.vizzini.example.common.service.UserService;
-import com.vizzini.rpc_lite.model.RpcRequest;
-import com.vizzini.rpc_lite.model.RpcResponse;
-import com.vizzini.rpc_lite.serializer.JdkSerializer;
-import com.vizzini.rpc_lite.serializer.Serializer;
+import com.vizzini.rpc_core.model.RpcRequest;
+import com.vizzini.rpc_core.model.RpcResponse;
+import com.vizzini.rpc_core.serializer.JdkSerializer;
+import com.vizzini.rpc_core.serializer.Serializer;
 
 import java.io.IOException;
 
