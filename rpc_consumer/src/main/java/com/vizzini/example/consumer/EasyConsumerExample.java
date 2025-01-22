@@ -19,9 +19,12 @@ public class EasyConsumerExample {
         // 调用
         User newUser = userService.getUser(user);
         if (newUser != null) {
-            System.out.println(newUser.getName() + " from consumer");
+            System.out.println(newUser.getName() + " as consumer");
         } else {
             System.out.println("user == null");
         }
+        // 验证mock服务
+        long number = userService.getNumber();
+        System.out.println(number);
     }
 }
