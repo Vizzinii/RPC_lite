@@ -40,7 +40,7 @@ public class RpcApplication {
     }
 
     /**
-     * 获取配置
+     * 获取配置（双重检查锁定（Double-Checked Locking）单例模式实现）
      *
      * @return
      */

@@ -1,4 +1,5 @@
 rpc.name=vizzini_rpc
 rpc.version=2.0
-rpc.serverPort=8082
-rpc.mock=true
+rpc.serverPort=8081
+rpc.mock=false
+rpc.serializer=jdk

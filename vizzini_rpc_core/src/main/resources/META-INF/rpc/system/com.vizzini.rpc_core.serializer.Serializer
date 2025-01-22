@@ -1,0 +1,4 @@
+jdk=com.vizzini.rpc_core.serializer.JdkSerializer
+hessian=com.vizzini.rpc_core.serializer.HessianSerializer
+json=com.vizzini.rpc_core.serializer.JsonSerializer
+kryo=com.vizzini.rpc_core.serializer.KryoSerializer
