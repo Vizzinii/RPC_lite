@@ -16,4 +16,9 @@ public interface RpcConstant {
      * 默认配置文件加载前缀
      */
     String DEFAULT_CONFIG_PREFIX = "vizzini_rpc";
+
+    /**
+     * 默认服务版本
+     */
+    String DEFAULT_SERVICE_VERSION = "v1.0";
 }

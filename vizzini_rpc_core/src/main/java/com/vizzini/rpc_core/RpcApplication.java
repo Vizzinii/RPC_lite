@@ -1,7 +1,10 @@
 package com.vizzini.rpc_core;
 
+import com.vizzini.rpc_core.config.RegistryConfig;
 import com.vizzini.rpc_core.config.RpcConfig;
 import com.vizzini.rpc_core.constant.RpcConstant;
+import com.vizzini.rpc_core.registry.Registry;
+import com.vizzini.rpc_core.registry.RegistryFactory;
 import com.vizzini.rpc_core.utils.ConfigUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,7 +25,12 @@ public class RpcApplication {
      */
     public static void init(RpcConfig newRpcConfig) {
         rpcConfig = newRpcConfig;
-        log.info("rpc init, config = {}", newRpcConfig.toString());
+        log.info("(RpcApplication) vizzini rpc init, config = {}", newRpcConfig.toString());
+        // 注册中心初始化
+        RegistryConfig registryConfig = rpcConfig.getRegistryConfig();
+        Registry registry = RegistryFactory.getInstance(registryConfig.getRegistry());
+        registry.init(registryConfig);
+        log.info("(RpcApplication) registry init, config = {}", registryConfig);
     }
 
     /**
