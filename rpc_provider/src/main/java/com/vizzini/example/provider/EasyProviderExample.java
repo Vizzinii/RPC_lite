@@ -10,6 +10,8 @@ import com.vizzini.rpc_core.registry.Registry;
 import com.vizzini.rpc_core.registry.RegistryFactory;
 import com.vizzini.rpc_core.server.HttpServer;
 import com.vizzini.rpc_core.server.VertxHttpServer;
+import com.vizzini.rpc_core.server.tcp.VertxTcpServer;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 简易服务提供者示例
@@ -26,6 +28,7 @@ import com.vizzini.rpc_core.server.VertxHttpServer;
 //    }
 //}
 
+@Slf4j
 public class EasyProviderExample {
 
     public static void main(String[] args) {
@@ -53,5 +56,9 @@ public class EasyProviderExample {
         // 启动 web 服务
         HttpServer httpServer = new VertxHttpServer();
         httpServer.doStart(RpcApplication.getRpcConfig().getServerPort());
+
+        // 启动 TCP 服务
+//        VertxTcpServer vertxTcpServer = new VertxTcpServer();
+//        vertxTcpServer.doStart(8081);
     }
 }
