@@ -7,6 +7,8 @@ import cn.hutool.http.HttpResponse;
 import com.vizzini.rpc_core.RpcApplication;
 import com.vizzini.rpc_core.config.RpcConfig;
 import com.vizzini.rpc_core.constant.RpcConstant;
+import com.vizzini.rpc_core.loadbalancer.LoadBalancer;
+import com.vizzini.rpc_core.loadbalancer.LoadBalancerFactory;
 import com.vizzini.rpc_core.model.RpcRequest;
 import com.vizzini.rpc_core.model.RpcResponse;
 import com.vizzini.rpc_core.model.ServiceMetaInfo;
@@ -16,6 +18,7 @@ import com.vizzini.rpc_core.registry.RegistryFactory;
 import com.vizzini.rpc_core.serializer.JdkSerializer;
 import com.vizzini.rpc_core.serializer.Serializer;
 import com.vizzini.rpc_core.serializer.SerializerFactory;
+import com.vizzini.rpc_core.server.tcp.VertxTcpClient;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetClient;
@@ -24,7 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -73,20 +78,34 @@ public class ServiceProxy implements InvocationHandler {
             }
 
             // 暂时先取第一个
-            ServiceMetaInfo selectedServiceMetaInfo = serviceMetaInfoList.get(0);
-//            try (HttpResponse httpResponse = HttpRequest.post("http://localhost:8081")
+//            ServiceMetaInfo selectedServiceMetaInfo = serviceMetaInfoList.get(0);
+////            try (HttpResponse httpResponse = HttpRequest.post("http://localhost:8081")
+//
+//            try (HttpResponse httpResponse = HttpRequest.post(selectedServiceMetaInfo.getServiceAddress())
+//                    .body(bodyBytes)
+//                    .execute()) {
+//                byte[] result = httpResponse.bodyBytes();
+//                // 反序列化
+//                RpcResponse rpcResponse = serializer.deserialize(result, RpcResponse.class);
+//                return rpcResponse.getData();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
-            try (HttpResponse httpResponse = HttpRequest.post(selectedServiceMetaInfo.getServiceAddress())
-                    .body(bodyBytes)
-                    .execute()) {
-                byte[] result = httpResponse.bodyBytes();
-                // 反序列化
-                RpcResponse rpcResponse = serializer.deserialize(result, RpcResponse.class);
-                return rpcResponse.getData();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // 负载均衡
+        LoadBalancer loadBalancer = LoadBalancerFactory.getInstance(rpcConfig.getLoadBalancer());
+        // 将调用方法名（请求路径）作为负载均衡参数
+        Map<String, Object> requestParams = new HashMap<>();
+        requestParams.put("methodName", rpcRequest.getMethodName());
+        ServiceMetaInfo selectedServiceMetaInfo = loadBalancer.select(requestParams, serviceMetaInfoList);
+
+        // rpc 请求
+        RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo);
+        return rpcResponse.getData();
+    } catch (Exception e) {
+        throw new RuntimeException("调用失败");
+    }
 
             // 发送 TCP 请求
 //            Vertx vertx = Vertx.vertx();
@@ -138,6 +157,6 @@ public class ServiceProxy implements InvocationHandler {
 //            e.printStackTrace();
 //        }
 
-        return null;
+//        return null;
     }
 }
